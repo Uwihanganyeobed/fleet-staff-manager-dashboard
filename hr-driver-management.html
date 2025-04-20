@@ -329,21 +329,10 @@
     </div>
 
     <script>
-        // Authentication Check
+        // Remove authentication check
         document.addEventListener('DOMContentLoaded', function() {
-            const isLoggedIn = localStorage.getItem('isLoggedIn');
-            const userRole = localStorage.getItem('userRole');
-            
-            if (!isLoggedIn || userRole !== 'hr') {
-                window.location.href = 'login.html';
-                return;
-            }
-
-            // Update user name in the dashboard
-            const username = localStorage.getItem('username');
-            if (username) {
-                document.querySelector('.user-name').textContent = username;
-            }
+            // Set default username
+            document.querySelector('.user-profile span').textContent = 'Staff Admin';
         });
 
         // User Dropdown Toggle
