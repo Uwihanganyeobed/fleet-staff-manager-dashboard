@@ -297,29 +297,23 @@
     </div>
 
     <script>
-        // Remove authentication check
-        document.addEventListener('DOMContentLoaded', function() {
-            // Set default username
-            document.querySelector('.user-profile span').textContent = 'Staff Admin';
+        // Mobile Menu Toggle
+        const menuToggle = document.querySelector('.menu-toggle');
+        const sidebar = document.querySelector('.sidebar');
+
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('active');
+            menuToggle.classList.toggle('active');
         });
 
-        // User Dropdown Toggle
-        document.querySelector('.user-profile').addEventListener('click', function(e) {
-            e.stopPropagation();
-            this.querySelector('.user-dropdown').classList.toggle('show');
-        });
-
-        document.addEventListener('click', function() {
-            document.querySelector('.user-dropdown').classList.remove('show');
-        });
-
-        // Logout Functionality
-        document.getElementById('logoutBtn').addEventListener('click', function(e) {
-            e.preventDefault();
-            localStorage.removeItem('isLoggedIn');
-            localStorage.removeItem('username');
-            localStorage.removeItem('userRole');
-            window.location.href = 'login.html';
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', (e) => {
+            if (window.innerWidth <= 768 && 
+                !sidebar.contains(e.target) && 
+                !menuToggle.contains(e.target)) {
+                sidebar.classList.remove('active');
+                menuToggle.classList.remove('active');
+            }
         });
 
         // Modal Functions
@@ -396,25 +390,6 @@
         function viewDetails(requestId) {
             openRequestDetailsModal(requestId);
         }
-
-        // Mobile Menu Toggle
-        const menuToggle = document.querySelector('.menu-toggle');
-        const sidebar = document.querySelector('.sidebar');
-
-        menuToggle.addEventListener('click', () => {
-            sidebar.classList.toggle('active');
-            menuToggle.classList.toggle('active');
-        });
-
-        // Close sidebar when clicking outside on mobile
-        document.addEventListener('click', (e) => {
-            if (window.innerWidth <= 768 && 
-                !sidebar.contains(e.target) && 
-                !menuToggle.contains(e.target)) {
-                sidebar.classList.remove('active');
-                menuToggle.classList.remove('active');
-            }
-        });
     </script>
 </body>
 </html> 

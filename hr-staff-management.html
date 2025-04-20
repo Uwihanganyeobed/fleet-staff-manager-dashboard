@@ -400,10 +400,23 @@
     </div>
 
     <script>
-        // Remove authentication check
-        document.addEventListener('DOMContentLoaded', function() {
-            // Set default username
-            document.querySelector('.user-profile p').textContent = 'Staff Admin';
+        // Mobile Menu Toggle
+        const menuToggle = document.querySelector('.menu-toggle');
+        const sidebar = document.querySelector('.sidebar');
+
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('active');
+            menuToggle.classList.toggle('active');
+        });
+
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', (e) => {
+            if (window.innerWidth <= 768 && 
+                !sidebar.contains(e.target) && 
+                !menuToggle.contains(e.target)) {
+                sidebar.classList.remove('active');
+                menuToggle.classList.remove('active');
+            }
         });
 
         // Modal functionality
@@ -488,50 +501,6 @@
             document.getElementById('staffRole').textContent = mockStaffData.role;
             document.getElementById('staffStatus').textContent = mockStaffData.status;
         }
-
-        // User Dropdown
-        const userProfile = document.querySelector('.user-profile');
-        const userDropdown = document.createElement('div');
-        userDropdown.className = 'user-dropdown';
-        userDropdown.innerHTML = `
-            <a href="#profile" class="user-dropdown-item">
-                <i class="fas fa-user"></i>
-                My Profile
-            </a>
-            <a href="#settings" class="user-dropdown-item">
-                <i class="fas fa-cog"></i>
-                Settings
-            </a>
-            <div class="user-dropdown-divider"></div>
-            <a href="#help" class="user-dropdown-item">
-                <i class="fas fa-question-circle"></i>
-                Help & Support
-            </a>
-            <div class="user-dropdown-divider"></div>
-            <a href="login.html" class="user-dropdown-item" id="logoutBtn">
-                <i class="fas fa-sign-out-alt"></i>
-                Logout
-            </a>
-        `;
-        userProfile.appendChild(userDropdown);
-
-        userProfile.addEventListener('click', (e) => {
-            e.stopPropagation();
-            userDropdown.classList.toggle('show');
-        });
-
-        document.addEventListener('click', () => {
-            userDropdown.classList.remove('show');
-        });
-
-        // Handle logout
-        document.getElementById('logoutBtn').addEventListener('click', (e) => {
-            e.preventDefault();
-            localStorage.removeItem('isLoggedIn');
-            localStorage.removeItem('username');
-            localStorage.removeItem('userRole');
-            window.location.href = 'login.html';
-        });
     </script>
 </body>
 </html> 

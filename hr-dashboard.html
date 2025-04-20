@@ -239,52 +239,23 @@
     </div>
 
     <script>
-        // Remove authentication check
-        document.addEventListener('DOMContentLoaded', function() {
-            // Set default username
-            document.querySelector('.user-profile p').textContent = 'Staff Admin';
+        // Mobile Menu Toggle
+        const menuToggle = document.querySelector('.menu-toggle');
+        const sidebar = document.querySelector('.sidebar');
+
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('active');
+            menuToggle.classList.toggle('active');
         });
 
-        // Notifications functionality
-        const notifications = document.querySelector('.notifications');
-        const notificationsDropdown = document.querySelector('.notifications-dropdown');
-        const markAllReadBtn = document.querySelector('.mark-all-read');
-        const notificationBadge = document.querySelector('.notifications .badge');
-
-        notifications.addEventListener('click', (e) => {
-            e.stopPropagation();
-            notificationsDropdown.classList.toggle('show');
-        });
-
-        markAllReadBtn.addEventListener('click', () => {
-            document.querySelectorAll('.notification-item.unread').forEach(item => {
-                item.classList.remove('unread');
-            });
-            notificationBadge.textContent = '0';
-            notificationsDropdown.classList.remove('show');
-        });
-
-        // User dropdown functionality
-        const userProfile = document.querySelector('.user-profile');
-        const userDropdown = document.querySelector('.user-dropdown');
-
-        userProfile.addEventListener('click', (e) => {
-            e.stopPropagation();
-            userDropdown.classList.toggle('show');
-        });
-
-        document.addEventListener('click', () => {
-            notificationsDropdown.classList.remove('show');
-            userDropdown.classList.remove('show');
-        });
-
-        // Handle logout
-        document.getElementById('logoutBtn').addEventListener('click', (e) => {
-            e.preventDefault();
-            localStorage.removeItem('isLoggedIn');
-            localStorage.removeItem('username');
-            localStorage.removeItem('userRole');
-            window.location.href = 'login.html';
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', (e) => {
+            if (window.innerWidth <= 768 && 
+                !sidebar.contains(e.target) && 
+                !menuToggle.contains(e.target)) {
+                sidebar.classList.remove('active');
+                menuToggle.classList.remove('active');
+            }
         });
 
         // Make stat cards clickable
@@ -302,9 +273,6 @@
                         break;
                     case 'Leave Requests':
                         targetPage = 'hr-car_request.html';
-                        break;
-                    case 'Issues Reported':
-                        targetPage = 'hr-performance.html';
                         break;
                 }
                 
@@ -429,181 +397,6 @@
             // Update department chart data based on selected department
             const department = this.value;
             // Add your data update logic here
-        });
-
-        // Mobile Menu Toggle
-        const menuToggle = document.querySelector('.menu-toggle');
-        const sidebar = document.querySelector('.sidebar');
-
-        menuToggle.addEventListener('click', () => {
-            sidebar.classList.toggle('active');
-            menuToggle.classList.toggle('active');
-        });
-
-        // Close sidebar when clicking outside on mobile
-        document.addEventListener('click', (e) => {
-            if (window.innerWidth <= 768 && 
-                !sidebar.contains(e.target) && 
-                !menuToggle.contains(e.target)) {
-                sidebar.classList.remove('active');
-                menuToggle.classList.remove('active');
-            }
-        });
-
-        // Modal functionality
-        const addStaffModal = document.getElementById('addStaffModal');
-        const staffDetailsModal = document.getElementById('staffDetailsModal');
-        const addStaffBtn = document.querySelector('.btn-primary');
-        const closeModalBtns = document.querySelectorAll('.modal-close');
-        const cancelAddStaffBtn = document.getElementById('cancelAddStaff');
-        const saveStaffBtn = document.getElementById('saveStaff');
-
-        // Open Add Staff Modal
-        addStaffBtn.addEventListener('click', () => {
-            addStaffModal.classList.add('active');
-        });
-
-        // Close Modals
-        function closeAllModals() {
-            addStaffModal.classList.remove('active');
-            staffDetailsModal.classList.remove('active');
-        }
-
-        closeModalBtns.forEach(btn => {
-            btn.addEventListener('click', closeAllModals);
-        });
-
-        cancelAddStaffBtn.addEventListener('click', closeAllModals);
-
-        // Save Staff
-        saveStaffBtn.addEventListener('click', () => {
-            // Add your save logic here
-            closeAllModals();
-        });
-
-        // Tab functionality
-        const tabs = document.querySelectorAll('.tab');
-        tabs.forEach(tab => {
-            tab.addEventListener('click', () => {
-                // Remove active class from all tabs and contents
-                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-                
-                // Add active class to clicked tab and corresponding content
-                tab.classList.add('active');
-                const tabId = tab.getAttribute('data-tab');
-                document.getElementById(`${tabId}-tab`).classList.add('active');
-            });
-        });
-
-        // Make table rows clickable
-        const tableRows = document.querySelectorAll('tbody tr');
-        tableRows.forEach(row => {
-            row.classList.add('clickable-row');
-            row.addEventListener('click', () => {
-                staffDetailsModal.classList.add('active');
-            });
-        });
-
-        // Toast notification function
-        function showToast(message, type = 'info') {
-            const toast = document.createElement('div');
-            toast.className = `toast ${type}`;
-            toast.textContent = message;
-            document.body.appendChild(toast);
-            
-            toast.style.display = 'block';
-            
-            setTimeout(() => {
-                toast.style.animation = 'slideOut 0.3s ease-in';
-                setTimeout(() => {
-                    document.body.removeChild(toast);
-                }, 300);
-            }, 3000);
-        }
-
-        // Update modal close functionality
-        document.querySelectorAll('.modal-close').forEach(btn => {
-            btn.addEventListener('click', function() {
-                const modal = this.closest('.modal');
-                modal.classList.remove('active');
-                showToast('Modal closed', 'info');
-            });
-        });
-
-        // Update save staff functionality
-        document.getElementById('saveStaff').addEventListener('click', function() {
-            // Add your save logic here
-            showToast('Staff member added successfully!', 'success');
-            closeAllModals();
-        });
-
-        // Update delete staff functionality
-        document.querySelectorAll('.btn-secondary[style*="padding: 5px"]').forEach(btn => {
-            if (btn.querySelector('.fa-trash')) {
-                btn.addEventListener('click', function(e) {
-                    e.stopPropagation();
-                    const staffName = this.closest('tr').querySelector('td:nth-child(2)').textContent;
-                    if (confirm(`Are you sure you want to delete ${staffName}?`)) {
-                        showToast(`${staffName} deleted successfully`, 'success');
-                        // Add your delete logic here
-                    }
-                });
-            }
-        });
-
-        // Update edit staff functionality
-        document.querySelectorAll('.btn-secondary[style*="padding: 5px"]').forEach(btn => {
-            if (btn.querySelector('.fa-edit')) {
-                btn.addEventListener('click', function(e) {
-                    e.stopPropagation();
-                    const staffName = this.closest('tr').querySelector('td:nth-child(2)').textContent;
-                    showToast(`Editing ${staffName}...`, 'info');
-                    // Add your edit logic here
-                });
-            }
-        });
-
-        // Close dropdown when clicking outside
-        document.addEventListener('click', (e) => {
-            if (!userProfile.contains(e.target)) {
-                userDropdown.classList.remove('show');
-            }
-        });
-
-        // Modal Controls
-        const addReviewBtn = document.getElementById('addReviewBtn');
-        const addReviewModal = document.getElementById('addReviewModal');
-        const cancelReviewBtn = document.getElementById('cancelReviewBtn');
-        const submitReviewBtn = document.getElementById('submitReviewBtn');
-        const modalClose = document.querySelector('.modal-close');
-
-        addReviewBtn.addEventListener('click', () => {
-            addReviewModal.classList.add('active');
-        });
-
-        function closeModal() {
-            addReviewModal.classList.remove('active');
-        }
-
-        cancelReviewBtn.addEventListener('click', closeModal);
-        modalClose.addEventListener('click', closeModal);
-
-        // Rating Stars
-        const ratingStars = document.querySelectorAll('.rating-input i');
-        ratingStars.forEach(star => {
-            star.addEventListener('click', () => {
-                const rating = star.getAttribute('data-rating');
-                ratingStars.forEach((s, index) => {
-                    if (index < rating) {
-                        s.classList.remove('far');
-                        s.classList.add('fas');
-                    } else {
-                        s.classList.remove('fas');
-                        s.classList.add('far');
-                    }
-                });
-            });
         });
     </script>
 </body>
