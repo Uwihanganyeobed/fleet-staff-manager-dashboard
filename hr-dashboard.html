@@ -241,18 +241,29 @@
     <script>
         // Authentication check
         document.addEventListener('DOMContentLoaded', function() {
-            const isLoggedIn = localStorage.getItem('isLoggedIn');
-            const userRole = localStorage.getItem('userRole');
+            // Check if we're on GitHub Pages
+            const isGitHubPages = window.location.hostname.includes('github.io');
             
-            if (!isLoggedIn || userRole !== 'hr') {
-                window.location.href = 'login.html';
-                return;
-            }
+            // For local development, use localStorage
+            if (!isGitHubPages) {
+                const isLoggedIn = localStorage.getItem('isLoggedIn');
+                const userRole = localStorage.getItem('userRole');
+                
+                if (!isLoggedIn || userRole !== 'hr') {
+                    window.location.href = 'login.html';
+                    return;
+                }
 
-            // Update user name in the dashboard
-            const username = localStorage.getItem('username');
-            if (username) {
-                document.querySelector('.user-profile span').textContent = username;
+                // Update user name in the dashboard
+                const username = localStorage.getItem('username');
+                if (username) {
+                    document.querySelector('.user-profile p').textContent = username;
+                }
+            } else {
+                // For GitHub Pages, we'll use a simpler approach
+                // You can implement your own authentication logic here
+                // For now, we'll just show the dashboard
+                document.querySelector('.user-profile p').textContent = 'Staff Admin';
             }
         });
 
