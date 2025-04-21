@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Staff - UR Fleet Management System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="hr-shared.css">
+    <link rel="stylesheet" href="hr-dashboard.css">
+    <style>
+        .form-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .form-section {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .form-section h2 {
+            margin-bottom: 20px;
+            color: #333;
+            border-bottom: 2px solid #f0f0f0;
+            padding-bottom: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .required-field::after {
+            content: " *";
+            color: red;
+        }
+
+        .error-message {
+            color: red;
+            font-size: 0.9em;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .form-group.error input, .form-group.error select {
+            border-color: red;
+        }
+
+        .form-group.error .error-message {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar Navigation -->
+    <nav class="sidebar">
+        <div class="sidebar-header">
+            <img src="./image/logo.jpg" alt="University of Rwanda Logo">
+            <h2>FMS Staff Admin</h2>
+        </div>
+        <ul class="nav-links">
+            <li>
+                <a href="hr-dashboard.html"><i class="fas fa-home"></i> Dashboard</a>
+            </li>
+            <li class="active">
+                <a href="hr-staff-management.html"><i class="fas fa-users"></i> Staff Management</a>
+            </li>
+            <li>
+                <a href="hr-driver-management.html"><i class="fas fa-user-tie"></i> Driver Management</a>
+            </li>
+            <li>
+                <a href="hr-car_request.html"><i class="fas fa-car"></i> Car Requests</a>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- Mobile Menu Toggle -->
+    <button class="menu-toggle">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Top Bar -->
+        <header class="top-bar">
+            <div class="user-info">
+                <div class="notifications-container">
+                    <span class="notifications">
+                        <i class="fas fa-bell"></i>
+                        <span class="badge">3</span>
+                    </span>
+                </div>
+                <div class="user-profile">
+                    <img src="./image/avatar.png" alt="Staff Admin Profile">
+                    <span>Staff Admin</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Add Staff Form -->
+        <div class="form-container">
+            <div class="form-section">
+                <h2>Add New Staff Member</h2>
+                <form id="addStaffForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="firstName" class="required-field">First Name</label>
+                            <input type="text" id="firstName" required>
+                            <div class="error-message">First name is required</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="lastName" class="required-field">Last Name</label>
+                            <input type="text" id="lastName" required>
+                            <div class="error-message">Last name is required</div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="email" class="required-field">Email</label>
+                            <input type="email" id="email" required>
+                            <div class="error-message">Valid email is required</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone" class="required-field">Phone Number</label>
+                            <input type="tel" id="phone" required>
+                            <div class="error-message">Phone number is required</div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="department" class="required-field">Department</label>
+                            <select id="department" required>
+                                <option value="">Select Department</option>
+                                <option value="IT">Information Technology</option>
+                                <option value="HR">Human Resources</option>
+                                <option value="Finance">Finance</option>
+                                <option value="Operations">Operations</option>
+                            </select>
+                            <div class="error-message">Department is required</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="position" class="required-field">Position</label>
+                            <input type="text" id="position" required>
+                            <div class="error-message">Position is required</div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="startDate" class="required-field">Start Date</label>
+                            <input type="date" id="startDate" required>
+                            <div class="error-message">Start date is required</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="employeeId" class="required-field">Employee ID</label>
+                            <input type="text" id="employeeId" required>
+                            <div class="error-message">Employee ID is required</div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="address">Address</label>
+                        <input type="text" id="address">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="notes">Additional Notes</label>
+                        <textarea id="notes" rows="3"></textarea>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" onclick="window.location.href='hr-staff-management.html'">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Add Staff</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Mobile Menu Toggle
+        const menuToggle = document.querySelector('.menu-toggle');
+        const sidebar = document.querySelector('.sidebar');
+
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('active');
+            menuToggle.classList.toggle('active');
+        });
+
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', (e) => {
+            if (window.innerWidth <= 768 && 
+                !sidebar.contains(e.target) && 
+                !menuToggle.contains(e.target)) {
+                sidebar.classList.remove('active');
+                menuToggle.classList.remove('active');
+            }
+        });
+
+        // Form Validation
+        const form = document.getElementById('addStaffForm');
+        const requiredFields = form.querySelectorAll('[required]');
+
+        function validateField(field) {
+            const formGroup = field.closest('.form-group');
+            const errorMessage = formGroup.querySelector('.error-message');
+            
+            if (!field.value.trim()) {
+                formGroup.classList.add('error');
+                return false;
+            }
+            
+            if (field.type === 'email' && !isValidEmail(field.value)) {
+                formGroup.classList.add('error');
+                errorMessage.textContent = 'Please enter a valid email address';
+                return false;
+            }
+            
+            formGroup.classList.remove('error');
+            return true;
+        }
+
+        function isValidEmail(email) {
+            return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+        }
+
+        requiredFields.forEach(field => {
+            field.addEventListener('blur', () => validateField(field));
+        });
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            let isValid = true;
+            requiredFields.forEach(field => {
+                if (!validateField(field)) {
+                    isValid = false;
+                }
+            });
+
+            if (isValid) {
+                // Here you would typically make an API call to add the staff member
+                alert('Staff member added successfully!');
+                window.location.href = 'hr-staff-management.html';
+            }
+        });
+    </script>
+</body>
+</html> 

@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Make Request - UR Fleet Management System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="hr-shared.css">
+    <link rel="stylesheet" href="hr-dashboard.css">
+    <style>
+        .request-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .request-section {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .request-section h2 {
+            margin-bottom: 20px;
+            color: #333;
+            border-bottom: 2px solid #f0f0f0;
+            padding-bottom: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+        }
+
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .required-field::after {
+            content: " *";
+            color: red;
+        }
+
+        .error-message {
+            color: red;
+            font-size: 0.9em;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .form-group.error input, .form-group.error select, .form-group.error textarea {
+            border-color: red;
+        }
+
+        .form-group.error .error-message {
+            display: block;
+        }
+
+        .passenger-count {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .passenger-count button {
+            width: 30px;
+            height: 30px;
+            border: 1px solid #ddd;
+            background: #f8f9fa;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .passenger-count input {
+            width: 50px;
+            text-align: center;
+        }
+
+        .time-picker {
+            display: flex;
+            gap: 10px;
+        }
+
+        .time-picker input {
+            flex: 1;
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar Navigation -->
+    <nav class="sidebar">
+        <div class="sidebar-header">
+            <img src="./image/logo.jpg" alt="University of Rwanda Logo">
+            <h2>FMS Staff Admin</h2>
+        </div>
+        <ul class="nav-links">
+            <li>
+                <a href="hr-dashboard.html"><i class="fas fa-home"></i> Dashboard</a>
+            </li>
+            <li>
+                <a href="hr-staff-management.html"><i class="fas fa-users"></i> Staff Management</a>
+            </li>
+            <li>
+                <a href="hr-driver-management.html"><i class="fas fa-user-tie"></i> Driver Management</a>
+            </li>
+            <li class="active">
+                <a href="hr-car_request.html"><i class="fas fa-car"></i> Car Requests</a>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- Mobile Menu Toggle -->
+    <button class="menu-toggle">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Top Bar -->
+        <header class="top-bar">
+            <div class="user-info">
+                <div class="notifications-container">
+                    <span class="notifications">
+                        <i class="fas fa-bell"></i>
+                        <span class="badge">3</span>
+                    </span>
+                </div>
+                <div class="user-profile">
+                    <img src="./image/avatar.png" alt="Staff Admin Profile">
+                    <span>Staff Admin</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Make Request Form -->
+        <div class="request-container">
+            <div class="request-section">
+                <h2>Make Vehicle Request</h2>
+                <form id="requestForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="requestType" class="required-field">Request Type</label>
+                            <select id="requestType" required>
+                                <option value="">Select Request Type</option>
+                                <option value="official">Official Business</option>
+                                <option value="field">Field Trip</option>
+                                <option value="conference">Conference</option>
+                                <option value="other">Other</option>
+                            </select>
+                            <div class="error-message">Request type is required</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="vehicleType" class="required-field">Vehicle Type</label>
+                            <select id="vehicleType" required>
+                                <option value="">Select Vehicle Type</option>
+                                <option value="sedan">Sedan</option>
+                                <option value="suv">SUV</option>
+                                <option value="minibus">Minibus</option>
+                                <option value="bus">Bus</option>
+                            </select>
+                            <div class="error-message">Vehicle type is required</div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="pickupDate" class="required-field">Pickup Date</label>
+                            <input type="date" id="pickupDate" required>
+                            <div class="error-message">Pickup date is required</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="pickupTime" class="required-field">Pickup Time</label>
+                            <div class="time-picker">
+                                <input type="time" id="pickupTime" required>
+                            </div>
+                            <div class="error-message">Pickup time is required</div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="returnDate" class="required-field">Return Date</label>
+                            <input type="date" id="returnDate" required>
+                            <div class="error-message">Return date is required</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="returnTime" class="required-field">Return Time</label>
+                            <div class="time-picker">
+                                <input type="time" id="returnTime" required>
+                            </div>
+                            <div class="error-message">Return time is required</div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="pickupLocation" class="required-field">Pickup Location</label>
+                        <input type="text" id="pickupLocation" required>
+                        <div class="error-message">Pickup location is required</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="destination" class="required-field">Destination</label>
+                        <input type="text" id="destination" required>
+                        <div class="error-message">Destination is required</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="passengerCount" class="required-field">Number of Passengers</label>
+                        <div class="passenger-count">
+                            <button type="button" onclick="decrementPassengers()">-</button>
+                            <input type="number" id="passengerCount" min="1" value="1" required>
+                            <button type="button" onclick="incrementPassengers()">+</button>
+                        </div>
+                        <div class="error-message">Number of passengers is required</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="purpose" class="required-field">Purpose of Trip</label>
+                        <textarea id="purpose" rows="3" required></textarea>
+                        <div class="error-message">Purpose is required</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="additionalNotes">Additional Notes</label>
+                        <textarea id="additionalNotes" rows="3"></textarea>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" onclick="window.location.href='hr-car_request.html'">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Submit Request</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Mobile Menu Toggle
+        const menuToggle = document.querySelector('.menu-toggle');
+        const sidebar = document.querySelector('.sidebar');
+
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('active');
+            menuToggle.classList.toggle('active');
+        });
+
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', (e) => {
+            if (window.innerWidth <= 768 && 
+                !sidebar.contains(e.target) && 
+                !menuToggle.contains(e.target)) {
+                sidebar.classList.remove('active');
+                menuToggle.classList.remove('active');
+            }
+        });
+
+        // Passenger Count Controls
+        function incrementPassengers() {
+            const input = document.getElementById('passengerCount');
+            input.value = parseInt(input.value) + 1;
+        }
+
+        function decrementPassengers() {
+            const input = document.getElementById('passengerCount');
+            const currentValue = parseInt(input.value);
+            if (currentValue > 1) {
+                input.value = currentValue - 1;
+            }
+        }
+
+        // Form Validation
+        const form = document.getElementById('requestForm');
+        const requiredFields = form.querySelectorAll('[required]');
+
+        function validateField(field) {
+            const formGroup = field.closest('.form-group');
+            const errorMessage = formGroup.querySelector('.error-message');
+            
+            if (!field.value.trim()) {
+                formGroup.classList.add('error');
+                return false;
+            }
+            
+            formGroup.classList.remove('error');
+            return true;
+        }
+
+        requiredFields.forEach(field => {
+            field.addEventListener('blur', () => validateField(field));
+        });
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            let isValid = true;
+            requiredFields.forEach(field => {
+                if (!validateField(field)) {
+                    isValid = false;
+                }
+            });
+
+            if (isValid) {
+                // Here you would typically make an API call to submit the request
+                alert('Request submitted successfully!');
+                window.location.href = 'hr-car_request.html';
+            }
+        });
+
+        // Date validation
+        const pickupDate = document.getElementById('pickupDate');
+        const returnDate = document.getElementById('returnDate');
+
+        pickupDate.addEventListener('change', () => {
+            returnDate.min = pickupDate.value;
+            if (returnDate.value && returnDate.value < pickupDate.value) {
+                returnDate.value = pickupDate.value;
+            }
+        });
+    </script>
+</body>
+</html>
