@@ -5,51 +5,86 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Make Request - UR Fleet Management System</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="hr-shared.css">
-    <link rel="stylesheet" href="hr-dashboard.css">
     <style>
-        .request-container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: rgba(0, 0, 0, 0.5);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
-        .request-section {
+        .modal-container {
             background: white;
             border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            width: 90%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
-        .request-section h2 {
-            margin-bottom: 20px;
+        .modal-header {
+            padding: 15px 20px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h2 {
+            margin: 0;
             color: #333;
-            border-bottom: 2px solid #f0f0f0;
-            padding-bottom: 10px;
+        }
+
+        .close-button {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .request-container {
+            padding: 20px;
         }
 
         .form-group {
-            margin-bottom: 15px;
+            margin-bottom: 20px;
         }
 
         .form-group label {
             display: block;
-            margin-bottom: 5px;
+            margin-bottom: 8px;
             color: #555;
+            font-weight: 500;
         }
 
-        .form-group input, .form-group select, .form-group textarea {
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
             width: 100%;
-            padding: 8px;
+            padding: 10px;
             border: 1px solid #ddd;
             border-radius: 4px;
+            font-size: 14px;
         }
 
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #007bff;
+            box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
         }
 
         .form-actions {
@@ -57,246 +92,133 @@
             justify-content: flex-end;
             gap: 10px;
             margin-top: 20px;
+            padding: 20px;
+            border-top: 1px solid #eee;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .btn-secondary {
+            background-color: #6c757d;
+            color: white;
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+        }
+
+        .date-time-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
         }
 
         .required-field::after {
             content: " *";
             color: red;
         }
-
-        .error-message {
-            color: red;
-            font-size: 0.9em;
-            margin-top: 5px;
-            display: none;
-        }
-
-        .form-group.error input, .form-group.error select, .form-group.error textarea {
-            border-color: red;
-        }
-
-        .form-group.error .error-message {
-            display: block;
-        }
-
-        .passenger-count {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .passenger-count button {
-            width: 30px;
-            height: 30px;
-            border: 1px solid #ddd;
-            background: #f8f9fa;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-
-        .passenger-count input {
-            width: 50px;
-            text-align: center;
-        }
-
-        .time-picker {
-            display: flex;
-            gap: 10px;
-        }
-
-        .time-picker input {
-            flex: 1;
-        }
     </style>
 </head>
 <body>
-
-    <!-- Main Content -->
-    <main class="main-content">
-
-        <!-- Make Request Form -->
-        <div class="request-container">
-            <div class="request-section">
-                <h2>Make Vehicle Request</h2>
-                <form id="requestForm">
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="requestType" class="required-field">Request Type</label>
-                            <select id="requestType" required>
-                                <option value="">Select Request Type</option>
-                                <option value="official">Official Business</option>
-                                <option value="field">Field Trip</option>
-                                <option value="conference">Conference</option>
-                                <option value="other">Other</option>
-                            </select>
-                            <div class="error-message">Request type is required</div>
-                        </div>
-                        <div class="form-group">
-                            <label for="vehicleType" class="required-field">Vehicle Type</label>
-                            <select id="vehicleType" required>
-                                <option value="">Select Vehicle Type</option>
-                                <option value="sedan">Sedan</option>
-                                <option value="suv">SUV</option>
-                                <option value="minibus">Minibus</option>
-                                <option value="bus">Bus</option>
-                            </select>
-                            <div class="error-message">Vehicle type is required</div>
-                        </div>
-                    </div>
-
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="pickupDate" class="required-field">Pickup Date</label>
-                            <input type="date" id="pickupDate" required>
-                            <div class="error-message">Pickup date is required</div>
-                        </div>
-                        <div class="form-group">
-                            <label for="pickupTime" class="required-field">Pickup Time</label>
-                            <div class="time-picker">
-                                <input type="time" id="pickupTime" required>
-                            </div>
-                            <div class="error-message">Pickup time is required</div>
-                        </div>
-                    </div>
-
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="returnDate" class="required-field">Return Date</label>
-                            <input type="date" id="returnDate" required>
-                            <div class="error-message">Return date is required</div>
-                        </div>
-                        <div class="form-group">
-                            <label for="returnTime" class="required-field">Return Time</label>
-                            <div class="time-picker">
-                                <input type="time" id="returnTime" required>
-                            </div>
-                            <div class="error-message">Return time is required</div>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="pickupLocation" class="required-field">Pickup Location</label>
-                        <input type="text" id="pickupLocation" required>
-                        <div class="error-message">Pickup location is required</div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="destination" class="required-field">Destination</label>
-                        <input type="text" id="destination" required>
-                        <div class="error-message">Destination is required</div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="passengerCount" class="required-field">Number of Passengers</label>
-                        <div class="passenger-count">
-                            <button type="button" onclick="decrementPassengers()">-</button>
-                            <input type="number" id="passengerCount" min="1" value="1" required>
-                            <button type="button" onclick="incrementPassengers()">+</button>
-                        </div>
-                        <div class="error-message">Number of passengers is required</div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="purpose" class="required-field">Purpose of Trip</label>
-                        <textarea id="purpose" rows="3" required></textarea>
-                        <div class="error-message">Purpose is required</div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="additionalNotes">Additional Notes</label>
-                        <textarea id="additionalNotes" rows="3"></textarea>
-                    </div>
-
-                    <div class="form-actions">
-                        <button type="button" class="btn btn-secondary" onclick="window.location.href='hr-car_request.html'">Cancel</button>
-                        <button type="submit" class="btn btn-primary">Submit Request</button>
-                    </div>
-                </form>
-            </div>
+    <div class="modal-container">
+        <div class="modal-header">
+            <h2>Make New Request</h2>
+            <button class="close-button" onclick="window.close()">&times;</button>
         </div>
-    </main>
+        <div class="request-container">
+            <form id="requestForm">
+                <div class="form-group">
+                    <label for="requestType" class="required-field">Request Type</label>
+                    <select id="requestType" required>
+                        <option value="">Select Request Type</option>
+                        <option value="vehicle">Vehicle Request</option>
+                        <option value="maintenance">Maintenance Request</option>
+                        <option value="fuel">Fuel Request</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="vehicle" class="required-field">Vehicle</label>
+                    <select id="vehicle" required>
+                        <option value="">Select Vehicle</option>
+                        <option value="car1">Toyota Corolla (UR 123 ABC)</option>
+                        <option value="car2">Toyota Hilux (UR 456 DEF)</option>
+                        <option value="car3">Toyota Land Cruiser (UR 789 GHI)</option>
+                    </select>
+                </div>
+
+                <div class="date-time-group">
+                    <div class="form-group">
+                        <label for="startDate" class="required-field">Start Date</label>
+                        <input type="date" id="startDate" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="endDate" class="required-field">End Date</label>
+                        <input type="date" id="endDate" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="purpose" class="required-field">Purpose</label>
+                    <textarea id="purpose" required placeholder="Please describe the purpose of your request..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="additionalNotes">Additional Notes</label>
+                    <textarea id="additionalNotes" placeholder="Any additional information or special requirements..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="priority">Priority Level</label>
+                    <select id="priority">
+                        <option value="low">Low</option>
+                        <option value="medium" selected>Medium</option>
+                        <option value="high">High</option>
+                        <option value="urgent">Urgent</option>
+                    </select>
+                </div>
+            </form>
+        </div>
+
+        <div class="form-actions">
+            <button class="btn btn-secondary" onclick="window.close()">Cancel</button>
+            <button class="btn btn-primary" id="submitRequest">Submit Request</button>
+        </div>
+    </div>
 
     <script>
-        // Mobile Menu Toggle
-        const menuToggle = document.querySelector('.menu-toggle');
-        const sidebar = document.querySelector('.sidebar');
-
-        menuToggle.addEventListener('click', () => {
-            sidebar.classList.toggle('active');
-            menuToggle.classList.toggle('active');
-        });
-
-        // Close sidebar when clicking outside on mobile
-        document.addEventListener('click', (e) => {
-            if (window.innerWidth <= 768 && 
-                !sidebar.contains(e.target) && 
-                !menuToggle.contains(e.target)) {
-                sidebar.classList.remove('active');
-                menuToggle.classList.remove('active');
-            }
-        });
-
-        // Passenger Count Controls
-        function incrementPassengers() {
-            const input = document.getElementById('passengerCount');
-            input.value = parseInt(input.value) + 1;
-        }
-
-        function decrementPassengers() {
-            const input = document.getElementById('passengerCount');
-            const currentValue = parseInt(input.value);
-            if (currentValue > 1) {
-                input.value = currentValue - 1;
-            }
-        }
-
-        // Form Validation
-        const form = document.getElementById('requestForm');
-        const requiredFields = form.querySelectorAll('[required]');
-
-        function validateField(field) {
-            const formGroup = field.closest('.form-group');
-            const errorMessage = formGroup.querySelector('.error-message');
-            
-            if (!field.value.trim()) {
-                formGroup.classList.add('error');
-                return false;
-            }
-            
-            formGroup.classList.remove('error');
-            return true;
-        }
-
-        requiredFields.forEach(field => {
-            field.addEventListener('blur', () => validateField(field));
-        });
-
-        form.addEventListener('submit', (e) => {
-            e.preventDefault();
-            
-            let isValid = true;
-            requiredFields.forEach(field => {
-                if (!validateField(field)) {
-                    isValid = false;
-                }
-            });
-
-            if (isValid) {
+        document.getElementById('submitRequest').addEventListener('click', () => {
+            const form = document.getElementById('requestForm');
+            if (form.checkValidity()) {
                 // Here you would typically make an API call to submit the request
                 alert('Request submitted successfully!');
-                window.location.href = 'hr-car_request.html';
+                window.close();
+            } else {
+                form.reportValidity();
             }
         });
 
-        // Date validation
-        const pickupDate = document.getElementById('pickupDate');
-        const returnDate = document.getElementById('returnDate');
+        // Set minimum date to today for date inputs
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('startDate').min = today;
+        document.getElementById('endDate').min = today;
 
-        pickupDate.addEventListener('change', () => {
-            returnDate.min = pickupDate.value;
-            if (returnDate.value && returnDate.value < pickupDate.value) {
-                returnDate.value = pickupDate.value;
-            }
+        // Update end date minimum when start date changes
+        document.getElementById('startDate').addEventListener('change', function() {
+            document.getElementById('endDate').min = this.value;
         });
     </script>
 </body>

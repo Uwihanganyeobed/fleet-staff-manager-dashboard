@@ -5,13 +5,52 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Settings - UR Fleet Management System</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="hr-shared.css">
-    <link rel="stylesheet" href="hr-dashboard.css">
     <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: rgba(0, 0, 0, 0.5);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-container {
+            background: white;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .modal-header {
+            padding: 15px 20px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h2 {
+            margin: 0;
+            color: #333;
+        }
+
+        .close-button {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #666;
+        }
+
         .settings-container {
             padding: 20px;
-            max-width: 800px;
-            margin: 0 auto;
         }
 
         .settings-section {
@@ -51,6 +90,8 @@
             justify-content: flex-end;
             gap: 10px;
             margin-top: 20px;
+            padding: 20px;
+            border-top: 1px solid #eee;
         }
 
         .profile-picture {
@@ -86,11 +127,36 @@
         .preference-item input[type="checkbox"] {
             width: auto;
         }
+
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .btn-secondary {
+            background-color: #6c757d;
+            color: white;
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+        }
     </style>
 </head>
 <body>
-    <main class="main-content">
-        <!-- Settings Content -->
+    <div class="modal-container">
+        <div class="modal-header">
+            <h2>User Settings</h2>
+            <button class="close-button" onclick="window.close()">&times;</button>
+        </div>
         <div class="settings-container">
             <div class="settings-section">
                 <h2>Profile Settings</h2>
@@ -149,34 +215,15 @@
                     </div>
                 </div>
             </div>
-
-            <div class="settings-actions">
-                <button class="btn btn-secondary">Cancel</button>
-                <button class="btn btn-primary">Save Changes</button>
-            </div>
         </div>
-    </main>
+
+        <div class="settings-actions">
+            <button class="btn btn-secondary" onclick="window.close()">Cancel</button>
+            <button class="btn btn-primary" id="saveChanges">Save Changes</button>
+        </div>
+    </div>
 
     <script>
-        // Mobile Menu Toggle
-        const menuToggle = document.querySelector('.menu-toggle');
-        const sidebar = document.querySelector('.sidebar');
-
-        menuToggle.addEventListener('click', () => {
-            sidebar.classList.toggle('active');
-            menuToggle.classList.toggle('active');
-        });
-
-        // Close sidebar when clicking outside on mobile
-        document.addEventListener('click', (e) => {
-            if (window.innerWidth <= 768 && 
-                !sidebar.contains(e.target) && 
-                !menuToggle.contains(e.target)) {
-                sidebar.classList.remove('active');
-                menuToggle.classList.remove('active');
-            }
-        });
-
         // Handle profile picture change
         document.querySelector('.change-photo').addEventListener('click', () => {
             const input = document.createElement('input');
@@ -196,7 +243,7 @@
         });
 
         // Handle form submission
-        document.querySelector('.btn-primary').addEventListener('click', () => {
+        document.getElementById('saveChanges').addEventListener('click', () => {
             // Validate form
             const newPassword = document.getElementById('newPassword').value;
             const confirmPassword = document.getElementById('confirmPassword').value;
@@ -208,6 +255,7 @@
 
             // Here you would typically make an API call to save the settings
             alert('Settings saved successfully!');
+            window.close();
         });
     </script>
 </body>
