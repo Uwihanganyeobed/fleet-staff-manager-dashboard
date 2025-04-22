@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Request Details - UR Fleet Management System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: rgba(0, 0, 0, 0.5);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-container {
+            background: white;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .modal-header {
+            padding: 15px 20px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h2 {
+            margin: 0;
+            color: #333;
+        }
+
+        .close-button {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .request-details {
+            padding: 20px;
+        }
+
+        .request-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .request-id {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .status-pending {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+
+        .status-approved {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .status-rejected {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+        .status-completed {
+            background-color: #cce5ff;
+            color: #004085;
+        }
+
+        .details-section {
+            margin-bottom: 20px;
+        }
+
+        .details-section h3 {
+            color: #333;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .details-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .detail-item {
+            margin-bottom: 15px;
+        }
+
+        .detail-label {
+            font-weight: 500;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .detail-value {
+            color: #333;
+            font-size: 16px;
+        }
+
+        .timeline {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 4px;
+        }
+
+        .timeline-item {
+            display: flex;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .timeline-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .timeline-date {
+            width: 120px;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .timeline-content {
+            flex: 1;
+        }
+
+        .timeline-title {
+            font-weight: 500;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .timeline-description {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .modal-actions {
+            padding: 20px;
+            border-top: 1px solid #eee;
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .btn-secondary {
+            background-color: #6c757d;
+            color: white;
+        }
+
+        .btn-success {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .btn-danger {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+    <div class="modal-container">
+        <div class="modal-header">
+            <h2>Request Details</h2>
+            <button class="close-button" onclick="window.close()">&times;</button>
+        </div>
+        <div class="request-details">
+            <div class="request-header">
+                <div>
+                    <h3>Vehicle Request</h3>
+                    <span class="request-id">Request ID: REQ12345</span>
+                </div>
+                <span class="status-badge status-pending">Pending Approval</span>
+            </div>
+
+            <div class="details-section">
+                <h3>Request Information</h3>
+                <div class="details-grid">
+                    <div class="detail-item">
+                        <div class="detail-label">Requested By</div>
+                        <div class="detail-value">John Doe (HR Department)</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Request Type</div>
+                        <div class="detail-value">Official Business</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Vehicle Type</div>
+                        <div class="detail-value">SUV</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Number of Passengers</div>
+                        <div class="detail-value">4</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="details-section">
+                <h3>Trip Details</h3>
+                <div class="details-grid">
+                    <div class="detail-item">
+                        <div class="detail-label">Pickup Date & Time</div>
+                        <div class="detail-value">15/03/2024, 08:00 AM</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Return Date & Time</div>
+                        <div class="detail-value">15/03/2024, 05:00 PM</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Pickup Location</div>
+                        <div class="detail-value">University of Rwanda, Kigali Campus</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Destination</div>
+                        <div class="detail-value">Kigali Convention Center</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="details-section">
+                <h3>Trip Purpose</h3>
+                <div class="detail-item">
+                    <div class="detail-value">
+                        Attending the annual HR conference at Kigali Convention Center. 
+                        Need to transport 4 HR staff members for the event.
+                    </div>
+                </div>
+            </div>
+
+            <div class="details-section">
+                <h3>Request Timeline</h3>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-date">14/03/2024 10:30 AM</div>
+                        <div class="timeline-content">
+                            <div class="timeline-title">Request Submitted</div>
+                            <div class="timeline-description">Request created by John Doe</div>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-date">14/03/2024 11:45 AM</div>
+                        <div class="timeline-content">
+                            <div class="timeline-title">Department Approval</div>
+                            <div class="timeline-description">Approved by HR Department Head</div>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-date">14/03/2024 02:15 PM</div>
+                        <div class="timeline-content">
+                            <div class="timeline-title">Fleet Manager Review</div>
+                            <div class="timeline-description">Pending fleet manager approval</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-actions">
+            <button class="btn btn-secondary" onclick="window.close()">Close</button>
+            <button class="btn btn-success">Approve Request</button>
+            <button class="btn btn-danger">Reject Request</button>
+        </div>
+    </div>
+</body>
+</html> 
